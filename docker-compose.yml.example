@@ -1,0 +1,20 @@
+version: "3"
+services:
+  api:
+    container_name:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      APP_PORT:
+      CONN_NAME:
+      CONN_TYPE:
+      CONN_HOST:
+      CONN_PORT:
+      CONN_USERNAME:
+      CONN_PASSWORD:
+      CONN_DATABASE:
+      CONN_AUTO_GENERATE_DDL:
+      CONN_LOGGING:
+    ports:
+      - "3000:3000"

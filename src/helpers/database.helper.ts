@@ -36,8 +36,7 @@ export const connectDatabase = async (config: DbConfig): Promise<Connection> => 
     database: config.database,
     logging: config.logging,
     entities: [
-      join(__dirname, '../models/**/*{.ts,.js}'),
-      join(__dirname, '../**/*.entity{.ts,.js}'),
+      join(__dirname, '../entities/**/*{.ts,.js}'),
     ],
   });
 

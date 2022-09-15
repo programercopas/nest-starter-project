@@ -1,30 +1,32 @@
-version: "3"
+version: '3'
 services:
-  database:
-      container_name:
-      image: mysql:8
-      ports:
-      volumes:
-      environment:
-        - MYSQL_ROOT_PASSWORD=
-        - MYSQL_PASSWORD=
-        - MYSQL_USER=
-        - MYSQL_DATABASE=
+  db:
+    container_name: nest_starter_database
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    volumes:
+      - './docker/db/data:/var/lib/mysql'
+      - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
+      - './docker/db/sql:/docker-entrypoint-initdb.d'
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=nest_starter
   api:
-    container_name:
+    container_name: nest_starter
     build:
       dockerfile: Dockerfile
       context: .
     environment:
-      APP_PORT:
-      CONN_NAME:
-      CONN_TYPE:
-      CONN_HOST:
-      CONN_PORT:
-      CONN_USERNAME:
-      CONN_PASSWORD:
-      CONN_DATABASE:
-      CONN_AUTO_GENERATE_DDL:
-      CONN_LOGGING:
+      APP_PORT: 3000
+      CONN_NAME: nest_starter
+      CONN_TYPE: mysql
+      CONN_HOST: localhost
+      CONN_PORT: 3306
+      CONN_USERNAME: root
+      CONN_PASSWORD: secret
+      CONN_DATABASE: nest_starter
+      CONN_AUTO_GENERATE_DDL: 'TRUE'
+      CONN_LOGGING: 'FALSE'
     ports:
-      - "3000:3000"
+      - '3000:3000'

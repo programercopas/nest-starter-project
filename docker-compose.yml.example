@@ -1,5 +1,15 @@
 version: '3'
 services:
+  cache:
+    container_name: nest_starter_redis
+    image: redis:alpine
+    command: redis-server
+    ports:
+       - '6379:6379'
+    volumes:
+       - cache:/data
+    environment:
+       - ALLOW_EMPTY_PASSWORD=yes
   db:
     container_name: nest_starter_database
     image: mysql:8.0
@@ -19,14 +29,18 @@ services:
       context: .
     environment:
       APP_PORT: 3000
-      CONN_NAME: nest_starter
       CONN_TYPE: mysql
       CONN_HOST: localhost
       CONN_PORT: 3306
       CONN_USERNAME: root
       CONN_PASSWORD: secret
       CONN_DATABASE: nest_starter
-      CONN_AUTO_GENERATE_DDL: 'TRUE'
       CONN_LOGGING: 'FALSE'
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
     ports:
       - '3000:3000'
+volumes:
+  cache:
+    driver: local

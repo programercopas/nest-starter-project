@@ -1,5 +1,15 @@
 version: "3"
 services:
+  database:
+      container_name:
+      image: mysql:8
+      ports:
+      volumes:
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MYSQL_PASSWORD=
+        - MYSQL_USER=
+        - MYSQL_DATABASE=
   api:
     container_name:
     build:

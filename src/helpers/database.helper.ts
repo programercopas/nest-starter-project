@@ -38,7 +38,7 @@ export const getTypeormConfig = (type: string, sid: string) => {
     };
 
     return config;
-}
+};
 
 export const getTypeOrmModuleOptions = (type: string, sid: string) => {
     const typeOrmConfig = getTypeormConfig(type, sid);
@@ -56,3 +56,14 @@ export const getTypeOrmModuleOptions = (type: string, sid: string) => {
     return config;
 };
 
+export const getTypeOrmModuleMigration = () => {
+    return {
+        host: Config.get('CONN_HOST'),
+        port: Config.getNumber('CONN_PORT'),
+        username: Config.get('CONN_USERNAME'),
+        password: Config.get('CONN_PASSWORD'),
+        database: Config.get('CONN_DATABASE'),
+        logging: Config.getBoolean('CONN_LOGGING'),
+        entities: [__dirname + '/../../entities/*{.ts,.js}'],
+    };
+};

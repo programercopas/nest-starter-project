@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
+
 dotenv.config();
 
 @Injectable()
@@ -20,7 +21,7 @@ export class ConfigService {
         return process.env[key];
     }
 
-    getInt(key: string): number {
+    getNumber(key: string): number {
         if (this.envConfig) return parseInt(this.envConfig[key], 10);
         return parseInt(process.env[key], 10);
     }

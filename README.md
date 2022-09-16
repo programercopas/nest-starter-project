@@ -66,6 +66,21 @@ $ docker-compose up -d
 $ docker-compose down -v 
 ```
 
+# Database Migration
+```bash
+# create migration file
+$ npm run migration:create ./src/migrations/CreateTableExample
+
+# run migrations file
+$ npm run migration:run
+
+# run migration revert
+$ npm run migration:revert
+
+# generate migration from entities
+$ npm run migration:generate ./src/migrations/GenerateAllEntities
+```
+
 ## License
 
 [MIT licensed](LICENSE).

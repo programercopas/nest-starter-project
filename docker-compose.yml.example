@@ -1,27 +1,24 @@
-version: '3'
+version: '3.9'
 services:
+  db:
+    container_name: nest_starter_database
+    image: mysql:8.0.30
+    ports:
+      - '3306:3306'
+    command: "--innodb_use_native_aio=0"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=nest_starter
   cache:
     container_name: nest_starter_redis
     image: redis:alpine
     command: redis-server
     ports:
-       - '6379:6379'
-    volumes:
-       - cache:/data
+      - '6379:6379'
     environment:
-       - ALLOW_EMPTY_PASSWORD=yes
-  db:
-    container_name: nest_starter_database
-    image: mysql:8.0
-    ports:
-      - '3306:3306'
-    volumes:
-      - './docker/db/data:/var/lib/mysql'
-      - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
-      - './docker/db/sql:/docker-entrypoint-initdb.d'
-    environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=nest_starter
+      - ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - db
   api:
     container_name: nest_starter
     build:
@@ -41,6 +38,5 @@ services:
       REDIS_PASSWORD:
     ports:
       - '3000:3000'
-volumes:
-  cache:
-    driver: local
+    depends_on:
+      - cache

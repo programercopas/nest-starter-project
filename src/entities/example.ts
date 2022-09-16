@@ -21,3 +21,5 @@ class Example extends BaseEntity {
     @Column('text', {name: 'address'})
     address: string;
 }
+
+export default Example;

@@ -64,6 +64,5 @@ export const getTypeOrmModuleMigration = () => {
         password: Config.get('CONN_PASSWORD'),
         database: Config.get('CONN_DATABASE'),
         logging: Config.getBoolean('CONN_LOGGING'),
-        entities: [__dirname + '/../../entities/*{.ts,.js}'],
     };
 };

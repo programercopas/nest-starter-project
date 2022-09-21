@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
-import { getTypeOrmModuleOptions } from '../../helpers/database.helper';
+import {getTypeOrmConfigDefault} from '../../helpers/database.helper';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { getTypeOrmModuleOptions } from '../../helpers/database.helper';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const typeOrmConfig = getTypeOrmModuleOptions(
+        const typeOrmConfig = getTypeOrmConfigDefault(
           config.get('CONN_TYPE'),
           config.get('CONN_DATABASE'),
         );

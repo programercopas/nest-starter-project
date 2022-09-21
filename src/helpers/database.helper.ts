@@ -3,7 +3,7 @@ import { MILLISECOND } from './helper';
 import { redisConfig } from './redis.helper';
 import { Config } from './config.helper';
 
-export const getTypeormConfig = (type: string, sid: string) => {
+export const getDatabaseType = (type: string, sid: string) => {
   type = type.toLowerCase();
 
   let config: TypeOrmModuleOptions = {
@@ -40,8 +40,8 @@ export const getTypeormConfig = (type: string, sid: string) => {
   return config;
 };
 
-export const getTypeOrmModuleOptions = (type: string, sid: string) => {
-  const typeOrmConfig = getTypeormConfig(type, sid);
+export const getTypeOrmConfigDefault = (type: string, sid: string) => {
+  const typeOrmConfig = getDatabaseType(type, sid);
   type = type.toLowerCase();
 
   const config: TypeOrmModuleOptions = {

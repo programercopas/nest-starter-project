@@ -8,11 +8,12 @@ export class CreateExample1663313474320 implements MigrationInterface {
                 name: "examples",
                 columns: [
                     {
-                        name: "id",
-                        type: "int",
+                        name: "example_id",
+                        type: "uuid",
                         isPrimary: true,
                         isUnique: true,
-                        generationStrategy: "increment",
+                        generationStrategy: "uuid",
+                        default: `uuid_generate_v4()`,
                     },
                     {
                         name: "first_name",

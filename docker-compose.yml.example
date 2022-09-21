@@ -2,13 +2,13 @@ version: '3.9'
 services:
   db:
     container_name: nest_starter_database
-    image: mysql:8.0.30
+    image: postgres:14.5-alpine
     ports:
-      - '3306:3306'
-    command: "--innodb_use_native_aio=0"
+      - '5432:5432'
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=nest_starter
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=nest_starter
   cache:
     container_name: nest_starter_redis
     image: redis:alpine
@@ -26,10 +26,10 @@ services:
       context: .
     environment:
       APP_PORT: 3000
-      CONN_TYPE: mysql
+      CONN_TYPE: postgres
       CONN_HOST: localhost
-      CONN_PORT: 3306
-      CONN_USERNAME: root
+      CONN_PORT: 5432
+      CONN_USERNAME: postgres
       CONN_PASSWORD: secret
       CONN_DATABASE: nest_starter
       CONN_LOGGING: 'FALSE'

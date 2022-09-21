@@ -5,7 +5,7 @@ import {CreateExample1663313474320} from "../../migrations/1663313474320-CreateE
 
 const typeOrmConfig = getTypeOrmModuleMigration();
 export default new DataSource({
-   type: 'mysql',
+   type: 'postgres',
     ...typeOrmConfig,
     entities:[Example],
     migrations: [CreateExample1663313474320],

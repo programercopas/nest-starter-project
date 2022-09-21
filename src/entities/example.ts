@@ -3,8 +3,8 @@ import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 @Entity('examples')
 class Example extends BaseEntity {
 
-    @PrimaryGeneratedColumn('uuid', {name: 'id'})
-    id: string;
+    @PrimaryGeneratedColumn('uuid', {name: 'example_id'})
+    exampleId: string;
 
     @Column('varchar', {name: 'first_name'})
     firstName: string;

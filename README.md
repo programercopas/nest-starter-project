@@ -72,7 +72,7 @@ $ docker-compose down -v
 $ npm run migration:create ./src/migrations/CreateTableExample
 
 # run migrations file
-$ npm run migration:run
+$ npm run migration:migrate
 
 # run migration revert
 $ npm run migration:revert

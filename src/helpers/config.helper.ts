@@ -8,7 +8,7 @@ export class Config {
   }
 
   static getStingTypeormType(key: string): string {
-    const envValue = process.env[key]
+    const envValue = process.env[key];
     return envValue.toString() || 'mysql';
   }
 

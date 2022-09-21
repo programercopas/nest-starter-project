@@ -1,10 +1,15 @@
 import { DataSource } from 'typeorm';
-import ExampleEntity from '../../entities/example.entity';
+import ExampleEntity from '../../db/entities/example.entity';
 import { CreateExample1663313474320 } from '../../migrations/1663313474320-CreateExample';
-import {Config} from "../../helpers/config.helper";
+import { Config } from '../../helpers/config.helper';
 
 export default new DataSource({
-  type: (Config.get('CONN_TYPE') === 'postgres')? 'postgres' : (Config.get('CONN_TYPE') === 'mysql')? 'mysql' : 'mssql',
+  type:
+    Config.get('CONN_TYPE') === 'postgres'
+      ? 'postgres'
+      : Config.get('CONN_TYPE') === 'mysql'
+      ? 'mysql'
+      : 'mssql',
   host: Config.get('CONN_HOST'),
   port: Config.getNumber('CONN_PORT'),
   username: Config.get('CONN_USERNAME'),

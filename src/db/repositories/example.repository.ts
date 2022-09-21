@@ -7,4 +7,8 @@ export class ExampleRepository extends Repository<ExampleEntity> {
   constructor(private datasource: DataSource) {
     super(ExampleEntity, datasource.createEntityManager());
   }
+
+  // async listExample(id: string): Promise<any> {
+  //   return await this.createQueryBuilder().where(`id = :id`, {id}).getMany();
+  // }
 }

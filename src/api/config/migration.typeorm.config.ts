@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import ExampleEntity from '../../db/entities/example.entity';
-import { CreateExample1663313474320 } from '../../db/migrations/1663313474320-CreateExample';
+import ExampleEntity from '../database/entities/example.entity';
+import { CreateExample1663313474320 } from '../database/migrations/1663313474320-CreateExample';
 import { Config } from '../../helpers/config.helper';
 
 export default new DataSource({

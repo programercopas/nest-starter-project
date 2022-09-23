@@ -54,16 +54,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Running the app using docker
+## Running database on docker
 ```bash
 # copy docker-compose.yml.example
 $ cp docker-compose.yml.example docker-compose.yml
 
 # run docker-compose
-$ docker-compose up -d  
+$ docker compose up -d  
 
 # stop docker-compose
-$ docker-compose down -v 
+$ docker compose down -v 
 ```
 
 # Database Migration
@@ -79,6 +79,25 @@ $ npm run migration:revert
 
 # generate migration from entities
 $ npm run migration:generate ./src/migrations/GenerateAllEntities
+```
+# Structure Project
+```bash
+src
+---api
+------config
+--------config.module.ts
+--------config.service.ts
+--------migration.typeorm.config.ts
+------database
+--------entties
+--------migrations
+--------database.module.ts
+---constants
+---dto
+---helpers
+---interface
+---services
+---main.ts
 ```
 
 ## License

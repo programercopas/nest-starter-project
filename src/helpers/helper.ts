@@ -2,25 +2,24 @@ export const sleep = (time: number) => {
   new Promise((resolve) => setTimeout(resolve, time * 1000)).then();
 };
 
-export function toLowerCase(value: string): string {
+export const toLowerCase = (value: string): string => {
   return value.toLowerCase();
-}
+};
 
-export function trim(value: string): string {
+export const trim = (value: string): string => {
   return value.trim();
-}
+};
 
-export function toDate(value: string): Date {
+export const toDate = (value: string): Date => {
   return new Date(value);
-}
+};
 
-export function toBoolean(value: string): boolean {
+export const toBoolean = (value: string): boolean => {
   value = value.toLowerCase();
-
   return value === 'true' || value === '1';
-}
+};
 
-export function toNumber(value: string, opts: ToNumberOptions = {}): number {
+export const toNumber = (value: string, opts: ToNumberOptions = {}): number => {
   let newValue: number = Number.parseInt(value || String(opts.default), 10);
 
   if (Number.isNaN(newValue)) {
@@ -38,6 +37,16 @@ export function toNumber(value: string, opts: ToNumberOptions = {}): number {
   }
 
   return newValue;
-}
+};
+
+export const camelToSnakeCase = (str: string): string => {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+};
+
+export const snakeToCamelCase = (str: string): string => {
+  return str.replace(/([-_][a-z])/gi, ($1) => {
+    return $1.toUpperCase().replace('-', '').replace('_', '');
+  });
+};
 
 export const MILLISECOND = 1000;

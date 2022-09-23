@@ -12,7 +12,7 @@ export class ExampleRepository extends Repository<ExampleEntity> {
   async listExample(pagination: PaginationOptionsInterface): Promise<any> {
     const queryData = this.createQueryBuilder()
       .take(pagination.limit)
-      .skip(pagination.queryPage);
+      .skip(pagination.skip);
 
     const [data, total] = await queryData.getManyAndCount();
     return { data, total };

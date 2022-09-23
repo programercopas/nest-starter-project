@@ -37,6 +37,16 @@ export class CreateExample1663313474320 implements MigrationInterface {
             type: 'text',
             isNullable: true,
           },
+          {
+            isNullable: false,
+            name: 'created_date',
+            type: 'timestamp',
+          },
+          {
+            isNullable: false,
+            name: 'updated_date',
+            type: 'timestamp',
+          },
         ],
       }),
       true,

@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DefaultEntity } from './default.entity';
 
 @Entity('examples')
-class ExampleEntity extends BaseEntity {
+class ExampleEntity extends DefaultEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'example_id' })
   exampleId: string;
 
@@ -13,7 +14,7 @@ class ExampleEntity extends BaseEntity {
 
   @Column('varchar', { name: 'email' })
   email: string;
-
+  i;
   @Column('varchar', { name: 'phone' })
   phone: string;
 

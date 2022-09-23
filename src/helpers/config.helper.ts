@@ -7,6 +7,11 @@ export class Config {
     return process.env[key];
   }
 
+  static getStingTypeormType(key: string): string {
+    const envValue = process.env[key];
+    return envValue.toString() || 'mysql';
+  }
+
   static getNumber(key: string): number {
     return parseInt(process.env[key], 10);
   }

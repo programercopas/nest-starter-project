@@ -12,8 +12,6 @@ export const getDatabaseType = (type: string, sid: string) => {
     timezone: 'Z',
     keepConnectionAlive: true,
     synchronize: false,
-    entities: [__dirname + '/../../entities/*{.ts,.js}'],
-    migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
   };
 
   switch (type) {

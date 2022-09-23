@@ -1,6 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
 import ExampleEntity from '../entities/example.entity';
 import { Injectable } from '@nestjs/common';
+import { PaginationOptionsInterface } from '../../../interfaces/pagination.options.interface';
 
 @Injectable()
 export class ExampleRepository extends Repository<ExampleEntity> {
@@ -8,7 +9,12 @@ export class ExampleRepository extends Repository<ExampleEntity> {
     super(ExampleEntity, datasource.createEntityManager());
   }
 
-  // async listExample(id: string): Promise<any> {
-  //   return await this.createQueryBuilder().where(`id = :id`, {id}).getMany();
-  // }
+  async listExample(pagination: PaginationOptionsInterface): Promise<any> {
+    const queryData = this.createQueryBuilder()
+      .take(pagination.limit)
+      .skip(pagination.queryPage);
+
+    const [data, total] = await queryData.getManyAndCount();
+    return { data, total };
+  }
 }

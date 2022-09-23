@@ -16,6 +16,7 @@ import { getTypeOrmConfigDefault } from '../../helpers/database.helper';
         );
         return {
           ...typeOrmConfig,
+          entities: [__dirname + '../api/database/entities/*{.ts,.js}'],
         };
       },
     }),

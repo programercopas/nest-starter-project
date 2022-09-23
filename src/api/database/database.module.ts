@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 import { getTypeOrmConfigDefault } from '../../helpers/database.helper';
+import ExampleEntity from './entities/example.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { getTypeOrmConfigDefault } from '../../helpers/database.helper';
         );
         return {
           ...typeOrmConfig,
-          entities: [__dirname + '../api/database/entities/*{.ts,.js}'],
+          entities: [ExampleEntity],
         };
       },
     }),

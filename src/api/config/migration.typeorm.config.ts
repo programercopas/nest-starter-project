@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import ExampleEntity from '../database/entities/example.entity';
 import { CreateExample1663313474320 } from '../database/migrations/1663313474320-CreateExample';
 import { Config } from '../../helpers/config.helper';
+import { InsertExample1663941981450 } from '../database/migrations/1663941981450-InsertExample';
 
 export default new DataSource({
   type:
@@ -17,5 +18,5 @@ export default new DataSource({
   database: Config.get('CONN_DATABASE'),
   logging: Config.getBoolean('CONN_LOGGING'),
   entities: [ExampleEntity],
-  migrations: [CreateExample1663313474320],
+  migrations: [CreateExample1663313474320, InsertExample1663941981450],
 });

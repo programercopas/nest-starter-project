@@ -16,3 +16,5 @@ export class DefaultEntity extends BaseEntity {
   })
   public updatedDate: Date;
 }
+
+export default DefaultEntity;

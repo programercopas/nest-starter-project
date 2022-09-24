@@ -37,6 +37,7 @@
     "class-validator": "^0.13.2",
     "jest-config": "^29.0.3",
     "mariadb": "^2.5.5",
+    "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "pg": "^8.8.0",
     "redis": "^4.3.1",

@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export const sleep = (time: number) => {
   new Promise((resolve) => setTimeout(resolve, time * 1000)).then();
 };
@@ -13,6 +15,10 @@ export const trim = (value: string): string => {
 export const toDate = (value: string): Date => {
   return new Date(value);
 };
+
+export const toDateTimeFormat = (value: Date): string => {
+  return moment(value).format('YYYY-MM-DD HH:mm:ss');
+}
 
 export const toBoolean = (value: string): boolean => {
   value = value.toLowerCase();

@@ -1,5 +1,5 @@
 import { PaginationResponseDto } from '../pagination.response.dto';
-import { IsDefined, IsString } from 'class-validator';
+import {IsDate, IsDefined, IsString} from 'class-validator';
 
 export class ExamplePaginationResponseDto extends PaginationResponseDto {
   data: ExamplePaginationDataDto[];
@@ -21,4 +21,7 @@ export class ExamplePaginationDataDto {
 
   @IsString()
   address: string;
+
+  @IsDate()
+  createdDate: Date;
 }

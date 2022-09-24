@@ -17,7 +17,7 @@ export class ExampleService {
   ): Promise<ExamplePaginationResponseDto> {
     const pagination: PaginationOptionsInterface =
       createPaginationOptions(params);
-    const { data, total } = await this.exampleDbService.listPaginationExample(
+    const { res, total } = await this.exampleDbService.listPaginationExample(
       pagination,
       params,
     );
@@ -25,7 +25,7 @@ export class ExampleService {
       pagination,
       new ExamplePaginationResponseDto(),
       total,
-      data,
+      res,
     );
   }
 }

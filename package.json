@@ -1,6 +1,6 @@
 {
   "name": "nest-starter-project",
-  "version": "0.2.10",
+  "version": "1.0.7",
   "description": "Starter Project API Using NestJS",
   "author": "Indra Hasan",
   "private": true,
@@ -37,6 +37,7 @@
     "class-validator": "^0.13.2",
     "jest-config": "^29.0.3",
     "mariadb": "^2.5.5",
+    "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "pg": "^8.8.0",
     "redis": "^4.3.1",

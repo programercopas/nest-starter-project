@@ -6,7 +6,10 @@ import {
   createResponsePagination,
 } from '../../helpers/pagination.helper';
 import { ExampleDbService } from '../../services/db/example.db.service';
-import { ExamplePaginationResponseDto } from '../../dto/example/example.pagination.response.dto';
+import {
+  ExamplePaginationDataDto,
+  ExamplePaginationResponseDto,
+} from '../../dto/example/example.pagination.response.dto';
 
 @Injectable()
 export class ExampleService {
@@ -17,7 +20,7 @@ export class ExampleService {
   ): Promise<ExamplePaginationResponseDto> {
     const pagination: PaginationOptionsInterface =
       createPaginationOptions(params);
-    const { data, total } = await this.exampleDbService.listPaginationExample(
+    const { res, total } = await this.exampleDbService.listPaginationExample(
       pagination,
       params,
     );
@@ -25,7 +28,11 @@ export class ExampleService {
       pagination,
       new ExamplePaginationResponseDto(),
       total,
-      data,
+      res,
     );
+  }
+
+  async findExampleById(id: string): Promise<ExamplePaginationDataDto> {
+    return this.exampleDbService.findExampleById(id);
   }
 }

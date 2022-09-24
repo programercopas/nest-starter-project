@@ -6,6 +6,7 @@ import {PaginationOptionsInterface} from '../../interfaces/pagination.options.in
 import {ExamplePaginationPayloadDto} from '../../dto/example/example.pagination.payload.dto';
 import {toDateTimeFormat} from "../../helpers/helper";
 import {transformFilterParameter, transformOrderParameter} from "../../helpers/repository.helper";
+import {ExamplePaginationDataDto} from "../../dto/example/example.pagination.response.dto";
 
 @Injectable()
 export class ExampleDbService {
@@ -39,7 +40,7 @@ export class ExampleDbService {
 
         if (params.email && params.email !== '') {
             const transformEmail = transformFilterParameter(params.email);
-            queryData.where(`email ${transformEmail.operation} :valueEmail`, {valueEmail : transformEmail.value});
+            queryData.where(`email ${transformEmail.operation} :valueEmail`, {valueEmail: transformEmail.value});
         }
 
         const [data, total] = await queryData.getManyAndCount();
@@ -55,5 +56,14 @@ export class ExampleDbService {
             res.push(formattedObjectResponse);
         }
         return {res, total};
+    }
+
+    async findExampleById(exampleId: string): Promise<ExamplePaginationDataDto> {
+        return this.exampleEntity.findOne({
+            where: {
+                exampleId,
+            },
+            select: ['exampleId','firstName','lastName','email','address','createdDate'],
+        });
     }
 }

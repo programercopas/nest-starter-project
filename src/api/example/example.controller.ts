@@ -1,6 +1,6 @@
 import {
   Controller,
-  Get,
+  Get, Param,
   Query,
   Req,
   UsePipes,
@@ -16,15 +16,24 @@ import {
   transformFilterParameter,
   transformOrderParameter,
 } from '../../helpers/repository.helper';
+import {
+  ExamplePaginationDataDto,
+  ExamplePaginationResponseDto
+} from "../../dto/example/example.pagination.response.dto";
 
 @Controller('example')
 export class ExampleController {
   constructor(private exampleService: ExampleService) {}
 
-  @Get('list')
+  @Get('')
   async getListExample(
     @Query() params: ExamplePaginationPayloadDto,
-  ): Promise<any> {
+  ): Promise<ExamplePaginationResponseDto> {
     return this.exampleService.getListExample(params);
+  }
+
+  @Get(':id')
+  async findExampleById(@Param('id') id: string): Promise<ExamplePaginationDataDto> {
+    return this.exampleService.findExampleById(id);
   }
 }

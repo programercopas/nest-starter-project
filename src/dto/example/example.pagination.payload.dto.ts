@@ -4,5 +4,5 @@ import { IsDefined, IsString } from 'class-validator';
 export class ExamplePaginationPayloadDto extends PaginationPayloadDto {
   @IsString()
   @IsDefined()
-  firstName: string;
+  email: string;
 }

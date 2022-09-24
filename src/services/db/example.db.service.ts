@@ -5,7 +5,7 @@ import {Repository} from 'typeorm';
 import {PaginationOptionsInterface} from '../../interfaces/pagination.options.interface';
 import {ExamplePaginationPayloadDto} from '../../dto/example/example.pagination.payload.dto';
 import {toDateTimeFormat} from "../../helpers/helper";
-import {transformOrderParameter} from "../../helpers/repository.helper";
+import {transformFilterParameter, transformOrderParameter} from "../../helpers/repository.helper";
 
 @Injectable()
 export class ExampleDbService {
@@ -36,6 +36,12 @@ export class ExampleDbService {
             const transformOrder = transformOrderParameter(params.order);
             queryData.orderBy(transformOrder.orderBy, (transformOrder.orderType === 'asc') ? 'ASC' : 'DESC');
         }
+
+        if (params.email && params.email !== '') {
+            const transformEmail = transformFilterParameter(params.email);
+            queryData.where(`email ${transformEmail.operation} :valueEmail`, {valueEmail : transformEmail.value});
+        }
+
         const [data, total] = await queryData.getManyAndCount();
 
         const res = [];

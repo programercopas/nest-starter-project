@@ -18,7 +18,7 @@ export const toDate = (value: string): Date => {
 
 export const toDateTimeFormat = (value: Date): string => {
   return moment(value).format('YYYY-MM-DD HH:mm:ss');
-}
+};
 
 export const toBoolean = (value: string): boolean => {
   value = value.toLowerCase();

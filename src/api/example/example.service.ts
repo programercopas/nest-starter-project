@@ -8,7 +8,7 @@ import {
 import { ExampleDbService } from '../../services/db/example.db.service';
 import {
   ExamplePaginationDataDto,
-  ExamplePaginationResponseDto
+  ExamplePaginationResponseDto,
 } from '../../dto/example/example.pagination.response.dto';
 
 @Injectable()

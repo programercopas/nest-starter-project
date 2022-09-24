@@ -1,6 +1,7 @@
 import {
   Controller,
-  Get, Param,
+  Get,
+  Param,
   Query,
   Req,
   UsePipes,
@@ -18,8 +19,8 @@ import {
 } from '../../helpers/repository.helper';
 import {
   ExamplePaginationDataDto,
-  ExamplePaginationResponseDto
-} from "../../dto/example/example.pagination.response.dto";
+  ExamplePaginationResponseDto,
+} from '../../dto/example/example.pagination.response.dto';
 
 @Controller('example')
 export class ExampleController {
@@ -33,7 +34,9 @@ export class ExampleController {
   }
 
   @Get(':id')
-  async findExampleById(@Param('id') id: string): Promise<ExamplePaginationDataDto> {
+  async findExampleById(
+    @Param('id') id: string,
+  ): Promise<ExamplePaginationDataDto> {
     return this.exampleService.findExampleById(id);
   }
 }

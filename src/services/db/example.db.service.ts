@@ -80,4 +80,12 @@ export class ExampleDbService {
       ],
     });
   }
+
+  async deleteExampleById(exampleId: string): Promise<any> {
+    return this.exampleEntity.delete({ exampleId });
+  }
+
+  async createExample(): Promise<any> {}
+
+  async updateExample(): Promise<any> {}
 }

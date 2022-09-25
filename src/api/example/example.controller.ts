@@ -1,7 +1,11 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Post,
+  Put,
   Query,
   Req,
   UsePipes,
@@ -39,4 +43,13 @@ export class ExampleController {
   ): Promise<ExamplePaginationDataDto> {
     return this.exampleService.findExampleById(id);
   }
+
+  @Post('')
+  async createExample(@Body() body): Promise<any> {}
+
+  @Put(':id')
+  async updateExample(@Param('id') id: string): Promise<any> {}
+
+  @Delete(':id')
+  async deleteExample(@Param('id') id: string): Promise<any> {}
 }

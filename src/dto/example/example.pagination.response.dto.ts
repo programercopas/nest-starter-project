@@ -20,6 +20,9 @@ export class ExamplePaginationDataDto {
   email: string;
 
   @IsString()
+  phone: string;
+
+  @IsString()
   address: string;
 
   @IsDate()

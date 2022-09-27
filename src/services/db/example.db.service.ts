@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import ExampleEntity from '../../api/database/entities/example.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
 import { toDateTimeFormat } from '../../helpers/helper';
@@ -10,6 +10,7 @@ import {
   transformOrderParameter,
 } from '../../helpers/repository.helper';
 import { ExamplePaginationDataDto } from '../../dto/example/example.pagination.response.dto';
+import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 
 @Injectable()
 export class ExampleDbService {
@@ -18,7 +19,7 @@ export class ExampleDbService {
     private exampleEntity: Repository<ExampleEntity>,
   ) {}
 
-  async listPaginationExample(
+  async listPagination(
     pagination: PaginationOptionsInterface,
     params: ExamplePaginationPayloadDto,
   ): Promise<any> {
@@ -65,7 +66,16 @@ export class ExampleDbService {
     return { res, total };
   }
 
-  async findExampleById(exampleId: string): Promise<ExamplePaginationDataDto> {
+  async findByEmail(email: string): Promise<any> {
+    return this.exampleEntity.findOne({
+      where: {
+        email,
+      },
+      select: ['exampleId'],
+    });
+  }
+
+  async findById(exampleId: string): Promise<ExamplePaginationDataDto> {
     return this.exampleEntity.findOne({
       where: {
         exampleId,
@@ -81,11 +91,34 @@ export class ExampleDbService {
     });
   }
 
-  async deleteExampleById(exampleId: string): Promise<any> {
+  async deleteById(exampleId: string): Promise<any> {
     return this.exampleEntity.delete({ exampleId });
   }
 
-  async createExample(): Promise<any> {}
+  async updateExample(body: any, exampleId: string): Promise<any> {
+    return this.exampleEntity.update(
+      {
+        exampleId,
+      },
+      body,
+    );
+  }
 
-  async updateExample(): Promise<any> {}
+  async createExample(body: ExampleCreatePayloadDto): Promise<any> {
+    return this.exampleEntity
+      .createQueryBuilder()
+      .insert()
+      .values([body])
+      .returning('example_id')
+      .execute();
+  }
+
+  async validateEmailIsUsed(email: string, exampleId: string): Promise<any> {
+    return this.exampleEntity.findOne({
+      where: {
+        email,
+        exampleId: Not(exampleId),
+      },
+    });
+  }
 }

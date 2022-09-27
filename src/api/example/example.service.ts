@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
 import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
 import {
@@ -10,6 +15,13 @@ import {
   ExamplePaginationDataDto,
   ExamplePaginationResponseDto,
 } from '../../dto/example/example.pagination.response.dto';
+import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
+import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
+import { DefaultResponseDto } from '../../dto/default.response.dto';
+import { EXAMPLERESPONSE } from '../../constants/response/example.response.constant';
+import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
+import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
+import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
 
 @Injectable()
 export class ExampleService {
@@ -18,21 +30,101 @@ export class ExampleService {
   async getListExample(
     params: ExamplePaginationPayloadDto,
   ): Promise<ExamplePaginationResponseDto> {
-    const pagination: PaginationOptionsInterface =
-      createPaginationOptions(params);
-    const { res, total } = await this.exampleDbService.listPaginationExample(
-      pagination,
-      params,
-    );
-    return createResponsePagination(
-      pagination,
-      new ExamplePaginationResponseDto(),
-      total,
-      res,
-    );
+    try {
+      const pagination: PaginationOptionsInterface =
+        createPaginationOptions(params);
+      const { res, total } = await this.exampleDbService.listPagination(
+        pagination,
+        params,
+      );
+      return createResponsePagination(
+        pagination,
+        new ExamplePaginationResponseDto(),
+        total,
+        res,
+      );
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async findExampleById(id: string): Promise<ExamplePaginationDataDto> {
-    return this.exampleDbService.findExampleById(id);
+  async deleteExampleById(exampleId: string): Promise<DefaultResponseDto> {
+    try {
+      const findById = await this.exampleDbService.findById(exampleId);
+      if (!findById) {
+        throw new BadRequestException('data not found');
+      }
+      await this.exampleDbService.deleteById(exampleId);
+      const result = new DefaultResponseDto();
+      result.message = EXAMPLERESPONSE.DELETE;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findExampleById(exampleId: string): Promise<ExampleFindResponseDto> {
+    try {
+      const findById = await this.exampleDbService.findById(exampleId);
+      if (!findById) {
+        throw new BadRequestException('data not found');
+      }
+      const result = new ExampleFindResponseDto();
+      result.exampleId = findById.exampleId;
+      result.email = findById.email;
+      result.firstName = findById.firstName;
+      result.lastName = findById.lastName;
+      result.phone = findById.phone;
+      result.address = findById.address;
+      result.message = EXAMPLERESPONSE.FINDONE;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createExample(
+    body: ExampleCreatePayloadDto,
+  ): Promise<ExampleCreateResponseDto> {
+    try {
+      const checkEmail = await this.exampleDbService.findByEmail(body.email);
+      if (checkEmail) {
+        throw new BadRequestException('email has been used');
+      }
+
+      const create = await this.exampleDbService.createExample(body);
+      const response = new ExampleCreateResponseDto();
+      response.message = EXAMPLERESPONSE.CREATE;
+      response.exampleId = create.identifiers[0].exampleId;
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateExampe(
+    body: ExampleUpdatePayloadDto,
+    exampleId: string,
+  ): Promise<ExampleUpdateResponseDto> {
+    try {
+      const findById = await this.exampleDbService.findById(exampleId);
+      if (!findById) {
+        throw new BadRequestException('data not found');
+      }
+
+      const validateEmailIsUsed =
+        await this.exampleDbService.validateEmailIsUsed(body.email, exampleId);
+      if (!validateEmailIsUsed) {
+        throw new BadRequestException('email is used');
+      }
+
+      await this.exampleDbService.updateExample(body, exampleId);
+      const result = new ExampleUpdateResponseDto();
+      result.exampleId = exampleId;
+      result.message = EXAMPLERESPONSE.UPDATE;
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 }

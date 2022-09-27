@@ -14,7 +14,7 @@ class ExampleEntity extends DefaultEntity {
 
   @Column('varchar', { name: 'email' })
   email: string;
-  i;
+
   @Column('varchar', { name: 'phone' })
   phone: string;
 

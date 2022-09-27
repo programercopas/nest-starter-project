@@ -1,7 +1,11 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Post,
+  Put,
   Query,
   Req,
   UsePipes,
@@ -21,6 +25,11 @@ import {
   ExamplePaginationDataDto,
   ExamplePaginationResponseDto,
 } from '../../dto/example/example.pagination.response.dto';
+import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
+import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
+import { DefaultResponseDto } from '../../dto/default.response.dto';
+import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
+import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
 
 @Controller('example')
 export class ExampleController {
@@ -38,5 +47,25 @@ export class ExampleController {
     @Param('id') id: string,
   ): Promise<ExamplePaginationDataDto> {
     return this.exampleService.findExampleById(id);
+  }
+
+  @Post('')
+  async createExample(
+    @Body() body: ExampleCreatePayloadDto,
+  ): Promise<ExampleCreateResponseDto> {
+    return this.exampleService.createExample(body);
+  }
+
+  @Put(':id')
+  async updateExample(
+    @Param('id') id: string,
+    @Body() body: ExampleUpdatePayloadDto,
+  ): Promise<ExampleUpdateResponseDto> {
+    return this.exampleService.updateExampe(body, id);
+  }
+
+  @Delete(':id')
+  async deleteExample(@Param('id') id: string): Promise<DefaultResponseDto> {
+    return this.exampleService.deleteExampleById(id);
   }
 }

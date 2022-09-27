@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
 } from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
@@ -12,7 +10,6 @@ import {
 } from '../../helpers/pagination.helper';
 import { ExampleDbService } from '../../services/db/example.db.service';
 import {
-  ExamplePaginationDataDto,
   ExamplePaginationResponseDto,
 } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
@@ -22,6 +19,7 @@ import { EXAMPLERESPONSE } from '../../constants/response/example.response.const
 import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
+import {VALIDATE} from "../../constants/response/validate.response.constant";
 
 @Injectable()
 export class ExampleService {
@@ -52,7 +50,7 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException('data not found');
+        throw new BadRequestException(VALIDATE.NOTFOUND);
       }
       await this.exampleDbService.deleteById(exampleId);
       const result = new DefaultResponseDto();
@@ -67,7 +65,7 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException('data not found');
+        throw new BadRequestException(VALIDATE.NOTFOUND);
       }
       const result = new ExampleFindResponseDto();
       result.exampleId = findById.exampleId;
@@ -89,7 +87,7 @@ export class ExampleService {
     try {
       const checkEmail = await this.exampleDbService.findByEmail(body.email);
       if (checkEmail) {
-        throw new BadRequestException('email has been used');
+        throw new BadRequestException(VALIDATE.EMAILUSED);
       }
 
       const create = await this.exampleDbService.createExample(body);
@@ -109,13 +107,13 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException('data not found');
+        throw new BadRequestException(VALIDATE.NOTFOUND);
       }
 
       const validateEmailIsUsed =
         await this.exampleDbService.validateEmailIsUsed(body.email, exampleId);
       if (!validateEmailIsUsed) {
-        throw new BadRequestException('email is used');
+        throw new BadRequestException(VALIDATE.EMAILUSED);
       }
 
       await this.exampleDbService.updateExample(body, exampleId);

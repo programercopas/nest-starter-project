@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
   Injectable,
 } from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
@@ -9,9 +11,7 @@ import {
   createResponsePagination,
 } from '../../helpers/pagination.helper';
 import { ExampleDbService } from '../../services/db/example.db.service';
-import {
-  ExamplePaginationResponseDto,
-} from '../../dto/example/example.pagination.response.dto';
+import { ExamplePaginationResponseDto } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
 import { DefaultResponseDto } from '../../dto/default.response.dto';
@@ -19,7 +19,7 @@ import { EXAMPLERESPONSE } from '../../constants/response/example.response.const
 import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
-import {VALIDATE} from "../../constants/response/validate.response.constant";
+import { VALIDATE } from '../../constants/response/validate.response.constant';
 
 @Injectable()
 export class ExampleService {
@@ -50,7 +50,10 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new HttpException(
+          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
+          HttpStatus.NOT_FOUND,
+        );
       }
       await this.exampleDbService.deleteById(exampleId);
       const result = new DefaultResponseDto();
@@ -65,7 +68,10 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new HttpException(
+          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
+          HttpStatus.NOT_FOUND,
+        );
       }
       const result = new ExampleFindResponseDto();
       result.exampleId = findById.exampleId;
@@ -86,10 +92,12 @@ export class ExampleService {
   ): Promise<ExampleCreateResponseDto> {
     try {
       const checkEmail = await this.exampleDbService.findByEmail(body.email);
-      if (checkEmail) {
-        throw new BadRequestException(VALIDATE.EMAILUSED);
+      if (!checkEmail) {
+        throw new HttpException(
+          { status: HttpStatus.BAD_REQUEST, error: VALIDATE.EMAILUSED },
+          HttpStatus.BAD_REQUEST,
+        );
       }
-
       const create = await this.exampleDbService.createExample(body);
       const response = new ExampleCreateResponseDto();
       response.message = EXAMPLERESPONSE.CREATE;
@@ -107,9 +115,11 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new HttpException(
+          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
+          HttpStatus.NOT_FOUND,
+        );
       }
-
       const validateEmailIsUsed =
         await this.exampleDbService.validateEmailIsUsed(body.email, exampleId);
       if (!validateEmailIsUsed) {

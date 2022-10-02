@@ -30,6 +30,8 @@ import { ExampleCreateResponseDto } from '../../dto/example/example.create.respo
 import { DefaultResponseDto } from '../../dto/default.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
+import {ExampleFindPayloadDto} from "../../dto/example/example.find.payload.dto";
+import {ExampleFindResponseDto} from "../../dto/example/example.find.response.dto";
 
 @Controller('example')
 export class ExampleController {
@@ -44,9 +46,9 @@ export class ExampleController {
 
   @Get(':id')
   async findExampleById(
-    @Param('id') id: string,
-  ): Promise<ExamplePaginationDataDto> {
-    return this.exampleService.findExampleById(id);
+    @Param() param: ExampleFindPayloadDto,
+  ): Promise<ExampleFindResponseDto> {
+    return this.exampleService.findExampleById(param.id);
   }
 
   @Post('')

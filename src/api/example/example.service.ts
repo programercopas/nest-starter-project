@@ -2,7 +2,7 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
-  Injectable,
+  Injectable, NotFoundException,
 } from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
 import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
@@ -50,10 +50,7 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new HttpException(
-          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
       await this.exampleDbService.deleteById(exampleId);
       const result = new DefaultResponseDto();
@@ -68,10 +65,7 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new HttpException(
-          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
       const result = new ExampleFindResponseDto();
       result.exampleId = findById.exampleId;
@@ -92,11 +86,8 @@ export class ExampleService {
   ): Promise<ExampleCreateResponseDto> {
     try {
       const checkEmail = await this.exampleDbService.findByEmail(body.email);
-      if (!checkEmail) {
-        throw new HttpException(
-          { status: HttpStatus.BAD_REQUEST, error: VALIDATE.EMAILUSED },
-          HttpStatus.BAD_REQUEST,
-        );
+      if (checkEmail) {
+        throw new BadRequestException(VALIDATE.EMAILUSED);
       }
       const create = await this.exampleDbService.createExample(body);
       const response = new ExampleCreateResponseDto();
@@ -115,10 +106,7 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new HttpException(
-          { status: HttpStatus.NOT_FOUND, error: VALIDATE.NOTFOUND },
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
       const validateEmailIsUsed =
         await this.exampleDbService.validateEmailIsUsed(body.email, exampleId);

@@ -30,7 +30,7 @@ import { ExampleCreateResponseDto } from '../../dto/example/example.create.respo
 import { DefaultResponseDto } from '../../dto/default.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
-import { ExampleFindPayloadDto } from '../../dto/example/example.find.payload.dto';
+import { ExampleParamPayloadDto } from '../../dto/example/example.param.payload.dto';
 import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
 
 @Controller('example')
@@ -46,7 +46,7 @@ export class ExampleController {
 
   @Get(':id')
   async findExampleById(
-    @Param() param: ExampleFindPayloadDto,
+    @Param() param: ExampleParamPayloadDto,
   ): Promise<ExampleFindResponseDto> {
     return this.exampleService.findExampleById(param.id);
   }
@@ -60,14 +60,16 @@ export class ExampleController {
 
   @Put(':id')
   async updateExample(
-    @Param('id') id: string,
+    @Param() param: ExampleParamPayloadDto,
     @Body() body: ExampleUpdatePayloadDto,
   ): Promise<ExampleUpdateResponseDto> {
-    return this.exampleService.updateExampe(body, id);
+    return this.exampleService.updateExampe(body, param.id);
   }
 
   @Delete(':id')
-  async deleteExample(@Param('id') id: string): Promise<DefaultResponseDto> {
-    return this.exampleService.deleteExampleById(id);
+  async deleteExample(
+    @Param() param: ExampleParamPayloadDto,
+  ): Promise<DefaultResponseDto> {
+    return this.exampleService.deleteExampleById(param.id);
   }
 }

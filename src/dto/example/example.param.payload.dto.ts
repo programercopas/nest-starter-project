@@ -1,6 +1,6 @@
 import { IsDefined, IsNotEmpty, IsUUID } from 'class-validator';
 
-export class ExampleFindPayloadDto {
+export class ExampleParamPayloadDto {
   @IsNotEmpty()
   @IsDefined()
   @IsUUID()

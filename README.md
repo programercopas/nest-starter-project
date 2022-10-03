@@ -102,8 +102,11 @@ src
 
 # Example API
 ```bash
-GET LIST : http://localhost:3000/example?page=1&limit=10&order=firstName:ASC&email=
-FIND ONE : http://localhost:3000/example/31526f91-f0d3-4a86-b5f5-34b00f7d0ecb
+GET LIST [GET]    : http://localhost:3000/example?page=1&limit=10&order=firstName:ASC&email=
+FIND ONE [GET]    : http://localhost:3000/example/31526f91-f0d3-4a86-b5f5-34b00f7d0ecb
+CREATE   [POST]   : http://localhost:3000/example
+UPDATE   [PUT]    : http://localhost:3000/example/31526f91-f0d3-4a86-b5f5-34b00f7d0ecb
+DELETE   [DELETE] : http://localhost:3000/example/31526f91-f0d3-4a86-b5f5-34b00f7d0ecb
 ```
 
 ## License

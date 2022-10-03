@@ -7,30 +7,20 @@ import {
   Post,
   Put,
   Query,
-  Req,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ExampleService } from './example.service';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
-import { createPaginationOptions } from '../../helpers/pagination.helper';
-import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
-import {
-  generateStringFilter,
-  generateStringOrder,
-  transformFilterParameter,
-  transformOrderParameter,
-} from '../../helpers/repository.helper';
-import {
-  ExamplePaginationDataDto,
-  ExamplePaginationResponseDto,
-} from '../../dto/example/example.pagination.response.dto';
+import { ExamplePaginationResponseDto } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
 import { DefaultResponseDto } from '../../dto/default.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
+import { ExampleParamPayloadDto } from '../../dto/example/example.param.payload.dto';
+import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Example')
 @Controller('example')
 export class ExampleController {
   constructor(private exampleService: ExampleService) {}
@@ -44,9 +34,9 @@ export class ExampleController {
 
   @Get(':id')
   async findExampleById(
-    @Param('id') id: string,
-  ): Promise<ExamplePaginationDataDto> {
-    return this.exampleService.findExampleById(id);
+    @Param() param: ExampleParamPayloadDto,
+  ): Promise<ExampleFindResponseDto> {
+    return this.exampleService.findExampleById(param.id);
   }
 
   @Post('')
@@ -58,14 +48,16 @@ export class ExampleController {
 
   @Put(':id')
   async updateExample(
-    @Param('id') id: string,
+    @Param() param: ExampleParamPayloadDto,
     @Body() body: ExampleUpdatePayloadDto,
   ): Promise<ExampleUpdateResponseDto> {
-    return this.exampleService.updateExampe(body, id);
+    return this.exampleService.updateExampe(body, param.id);
   }
 
   @Delete(':id')
-  async deleteExample(@Param('id') id: string): Promise<DefaultResponseDto> {
-    return this.exampleService.deleteExampleById(id);
+  async deleteExample(
+    @Param() param: ExampleParamPayloadDto,
+  ): Promise<DefaultResponseDto> {
+    return this.exampleService.deleteExampleById(param.id);
   }
 }

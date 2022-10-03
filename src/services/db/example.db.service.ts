@@ -9,7 +9,6 @@ import {
   transformFilterParameter,
   transformOrderParameter,
 } from '../../helpers/repository.helper';
-import { ExamplePaginationDataDto } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 
 @Injectable()
@@ -75,7 +74,7 @@ export class ExampleDbService {
     });
   }
 
-  async findById(exampleId: string): Promise<ExamplePaginationDataDto> {
+  async findById(exampleId: string): Promise<any> {
     return this.exampleEntity.findOne({
       where: {
         exampleId,

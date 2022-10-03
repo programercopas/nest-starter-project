@@ -1,6 +1,8 @@
 import {
   BadRequestException,
+  HttpStatus,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
 import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
@@ -9,9 +11,7 @@ import {
   createResponsePagination,
 } from '../../helpers/pagination.helper';
 import { ExampleDbService } from '../../services/db/example.db.service';
-import {
-  ExamplePaginationResponseDto,
-} from '../../dto/example/example.pagination.response.dto';
+import { ExamplePaginationResponseDto } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
 import { DefaultResponseDto } from '../../dto/default.response.dto';
@@ -19,7 +19,7 @@ import { EXAMPLERESPONSE } from '../../constants/response/example.response.const
 import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
-import {VALIDATE} from "../../constants/response/validate.response.constant";
+import { VALIDATE } from '../../constants/response/validate.response.constant';
 
 @Injectable()
 export class ExampleService {
@@ -50,10 +50,11 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
       await this.exampleDbService.deleteById(exampleId);
       const result = new DefaultResponseDto();
+      result.statusCode = HttpStatus.OK;
       result.message = EXAMPLERESPONSE.DELETE;
       return result;
     } catch (error) {
@@ -65,16 +66,13 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
+
       const result = new ExampleFindResponseDto();
-      result.exampleId = findById.exampleId;
-      result.email = findById.email;
-      result.firstName = findById.firstName;
-      result.lastName = findById.lastName;
-      result.phone = findById.phone;
-      result.address = findById.address;
       result.message = EXAMPLERESPONSE.FINDONE;
+      result.statusCode = HttpStatus.OK;
+      result.data = { ...findById };
       return result;
     } catch (error) {
       throw error;
@@ -89,12 +87,12 @@ export class ExampleService {
       if (checkEmail) {
         throw new BadRequestException(VALIDATE.EMAILUSED);
       }
-
       const create = await this.exampleDbService.createExample(body);
-      const response = new ExampleCreateResponseDto();
-      response.message = EXAMPLERESPONSE.CREATE;
-      response.exampleId = create.identifiers[0].exampleId;
-      return response;
+      const result = new ExampleCreateResponseDto();
+      result.message = EXAMPLERESPONSE.CREATE;
+      result.statusCode = HttpStatus.OK;
+      result.data.exampleId = create.identifiers[0].exampleId;
+      return result;
     } catch (error) {
       throw error;
     }
@@ -107,9 +105,8 @@ export class ExampleService {
     try {
       const findById = await this.exampleDbService.findById(exampleId);
       if (!findById) {
-        throw new BadRequestException(VALIDATE.NOTFOUND);
+        throw new NotFoundException(VALIDATE.NOTFOUND);
       }
-
       const validateEmailIsUsed =
         await this.exampleDbService.validateEmailIsUsed(body.email, exampleId);
       if (!validateEmailIsUsed) {
@@ -118,7 +115,7 @@ export class ExampleService {
 
       await this.exampleDbService.updateExample(body, exampleId);
       const result = new ExampleUpdateResponseDto();
-      result.exampleId = exampleId;
+      result.data.exampleId = exampleId;
       result.message = EXAMPLERESPONSE.UPDATE;
       return result;
     } catch (error) {

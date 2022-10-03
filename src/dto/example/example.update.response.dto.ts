@@ -1,7 +1,8 @@
 import { DefaultResponseDto } from '../default.response.dto';
-import { IsString } from 'class-validator';
+import { ExampleDefaultDataDto } from './example.default.data.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ExampleUpdateResponseDto extends DefaultResponseDto {
-  @IsString()
-  exampleId: string;
+  @ApiProperty()
+  data: ExampleDefaultDataDto;
 }

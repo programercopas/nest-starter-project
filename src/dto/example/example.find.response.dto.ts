@@ -1,7 +1,8 @@
 import { ExamplePaginationDataDto } from './example.pagination.response.dto';
-import { IsString } from 'class-validator';
+import { DefaultResponseDto } from '../default.response.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class ExampleFindResponseDto extends ExamplePaginationDataDto {
-  @IsString()
-  message: string;
+export class ExampleFindResponseDto extends DefaultResponseDto {
+  @ApiProperty()
+  data: ExamplePaginationDataDto;
 }

@@ -18,7 +18,9 @@ import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payloa
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
 import { ExampleParamPayloadDto } from '../../dto/example/example.param.payload.dto';
 import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Example')
 @Controller('example')
 export class ExampleController {
   constructor(private exampleService: ExampleService) {}

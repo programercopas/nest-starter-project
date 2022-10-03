@@ -1,7 +1,6 @@
 import { ExamplePaginationDataDto } from './example.pagination.response.dto';
-import { IsString } from 'class-validator';
+import {DefaultResponseDto} from "../default.response.dto";
 
-export class ExampleFindResponseDto extends ExamplePaginationDataDto {
-  @IsString()
-  message: string;
+export class ExampleFindResponseDto extends DefaultResponseDto{
+  data: ExamplePaginationDataDto;
 }

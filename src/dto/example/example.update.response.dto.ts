@@ -1,7 +1,6 @@
 import { DefaultResponseDto } from '../default.response.dto';
-import { IsString } from 'class-validator';
+import {ExampleDefaultDataDto} from "./example.default.data.dto";
 
 export class ExampleUpdateResponseDto extends DefaultResponseDto {
-  @IsString()
-  exampleId: string;
+  data: ExampleDefaultDataDto;
 }

@@ -54,6 +54,7 @@ export class ExampleService {
       }
       await this.exampleDbService.deleteById(exampleId);
       const result = new DefaultResponseDto();
+      result.statusCode = HttpStatus.OK;
       result.message = EXAMPLERESPONSE.DELETE;
       return result;
     } catch (error) {
@@ -67,14 +68,11 @@ export class ExampleService {
       if (!findById) {
         throw new NotFoundException(VALIDATE.NOTFOUND);
       }
+
       const result = new ExampleFindResponseDto();
-      result.exampleId = findById.exampleId;
-      result.email = findById.email;
-      result.firstName = findById.firstName;
-      result.lastName = findById.lastName;
-      result.phone = findById.phone;
-      result.address = findById.address;
       result.message = EXAMPLERESPONSE.FINDONE;
+      result.statusCode = HttpStatus.OK;
+      result.data = {...findById};
       return result;
     } catch (error) {
       throw error;
@@ -90,10 +88,11 @@ export class ExampleService {
         throw new BadRequestException(VALIDATE.EMAILUSED);
       }
       const create = await this.exampleDbService.createExample(body);
-      const response = new ExampleCreateResponseDto();
-      response.message = EXAMPLERESPONSE.CREATE;
-      response.exampleId = create.identifiers[0].exampleId;
-      return response;
+      const result = new ExampleCreateResponseDto();
+      result.message = EXAMPLERESPONSE.CREATE;
+      result.statusCode = HttpStatus.OK;
+      result.data.exampleId = create.identifiers[0].exampleId;
+      return result;
     } catch (error) {
       throw error;
     }
@@ -116,7 +115,7 @@ export class ExampleService {
 
       await this.exampleDbService.updateExample(body, exampleId);
       const result = new ExampleUpdateResponseDto();
-      result.exampleId = exampleId;
+      result.data.exampleId = exampleId;
       result.message = EXAMPLERESPONSE.UPDATE;
       return result;
     } catch (error) {

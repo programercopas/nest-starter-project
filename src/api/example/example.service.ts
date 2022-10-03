@@ -2,7 +2,8 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
-  Injectable, NotFoundException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
 import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
@@ -72,7 +73,7 @@ export class ExampleService {
       const result = new ExampleFindResponseDto();
       result.message = EXAMPLERESPONSE.FINDONE;
       result.statusCode = HttpStatus.OK;
-      result.data = {...findById};
+      result.data = { ...findById };
       return result;
     } catch (error) {
       throw error;

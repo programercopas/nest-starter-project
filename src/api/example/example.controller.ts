@@ -30,8 +30,8 @@ import { ExampleCreateResponseDto } from '../../dto/example/example.create.respo
 import { DefaultResponseDto } from '../../dto/default.response.dto';
 import { ExampleUpdatePayloadDto } from '../../dto/example/example.update.payload.dto';
 import { ExampleUpdateResponseDto } from '../../dto/example/example.update.response.dto';
-import {ExampleFindPayloadDto} from "../../dto/example/example.find.payload.dto";
-import {ExampleFindResponseDto} from "../../dto/example/example.find.response.dto";
+import { ExampleFindPayloadDto } from '../../dto/example/example.find.payload.dto';
+import { ExampleFindResponseDto } from '../../dto/example/example.find.response.dto';
 
 @Controller('example')
 export class ExampleController {

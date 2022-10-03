@@ -7,24 +7,10 @@ import {
   Post,
   Put,
   Query,
-  Req,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ExampleService } from './example.service';
 import { ExamplePaginationPayloadDto } from '../../dto/example/example.pagination.payload.dto';
-import { createPaginationOptions } from '../../helpers/pagination.helper';
-import { PaginationOptionsInterface } from '../../interfaces/pagination.options.interface';
-import {
-  generateStringFilter,
-  generateStringOrder,
-  transformFilterParameter,
-  transformOrderParameter,
-} from '../../helpers/repository.helper';
-import {
-  ExamplePaginationDataDto,
-  ExamplePaginationResponseDto,
-} from '../../dto/example/example.pagination.response.dto';
+import { ExamplePaginationResponseDto } from '../../dto/example/example.pagination.response.dto';
 import { ExampleCreatePayloadDto } from '../../dto/example/example.create.payload.dto';
 import { ExampleCreateResponseDto } from '../../dto/example/example.create.response.dto';
 import { DefaultResponseDto } from '../../dto/default.response.dto';
